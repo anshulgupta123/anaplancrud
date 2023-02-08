@@ -43,9 +43,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             }
             Employee employee = new Employee();
             employee.setDepartment(employeeDto.getDepartment());
+            logger.warn("Not saving email in encoded format");
             employee.setEmail(employeeDto.getEmail());
             employee.setName(employeeDto.getName());
-            employeeRepository.save(employee);
+            Employee savedEmployee = employeeRepository.save(employee);
+            logger.debug("Employee id after saving the employee is :{}", savedEmployee.getEmployeeId());
             return new Response<>(env.getProperty(Constants.SUCCESS_CODE), env.getProperty(Constants.EMPLOYEE_SAVED_SUCCESSFULLY));
 
         } catch (Exception e) {
@@ -55,6 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 errorMessage = MessageFormat.format("Exception caught in addEmployee of EmployeeServiceImpl:{0}", e.getMessage());
             }
+            logger.error(errorMessage);
             throw new EmployeeException(errorMessage);
         }
     }
@@ -64,17 +67,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         try {
             logger.info("Inside updateEmployee of EmployeeServiceImpl");
             if (employeeDto.getEmployeeId() == null) {
+                logger.info("Getting employee id as null in request data");
                 throw new EmployeeException(env.getProperty(Constants.KINDLY_PROVIDE_EMPLOYEE_ID));
             }
             Optional<Employee> existedEmployee = employeeExistById(employeeDto.getEmployeeId());
             if (existedEmployee.isEmpty()) {
+                logger.info("Employee does not exist");
                 throw new EmployeeException(env.getProperty(Constants.EMPLOYEE_DOES_NOT_EXIST));
             }
             Employee employee = existedEmployee.get();
             employee.setEmployeeId(employeeDto.getEmployeeId());
-            employee.setDepartment(employeeDto.getDepartment()!=null?employeeDto.getDepartment():employee.getDepartment());
-            employee.setEmail(employeeDto.getEmail()!=null?employeeDto.getEmail():employeeDto.getEmail());
-            employee.setName(employeeDto.getName()!=null?employeeDto.getName():null);
+            employee.setDepartment(employeeDto.getDepartment() != null ? employeeDto.getDepartment() : employee.getDepartment());
+            employee.setEmail(employeeDto.getEmail() != null ? employeeDto.getEmail() : employeeDto.getEmail());
+            employee.setName(employeeDto.getName() != null ? employeeDto.getName() : null);
             employeeRepository.save(employee);
             return new Response<>(env.getProperty(Constants.SUCCESS_CODE), env.getProperty(Constants.EMPLOYEE_UPDATED_SUCCESSFULLY));
 
@@ -85,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 errorMessage = MessageFormat.format("Exception caught in updateEmployee of EmployeeServiceImpl:{0}", e.getMessage());
             }
+            logger.error(errorMessage);
             throw new EmployeeException(errorMessage);
         }
     }
@@ -107,6 +113,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 errorMessage = MessageFormat.format("Exception caught in getAllEmployees of EmployeeServiceImpl:{0}", e.getMessage());
             }
+            logger.error(errorMessage);
             throw new EmployeeException(errorMessage);
         }
     }
@@ -132,6 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 errorMessage = MessageFormat.format("Exception caught in delete of EmployeeServiceImpl:{0}", e.getMessage());
             }
+            logger.error(errorMessage);
             throw new EmployeeException(errorMessage);
         }
     }
@@ -155,6 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             } else {
                 errorMessage = MessageFormat.format("Exception caught in getEmployeeById of EmployeeServiceImpl:{0}", e.getMessage());
             }
+            logger.error(errorMessage);
             throw new EmployeeException(errorMessage);
         }
     }
@@ -163,7 +172,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("Inside addEmployeeValidation");
         boolean flag = false;
         if (employeeDto.getDepartment() == null || employeeDto.getName() == null || employeeDto.getName() == null || employeeDto.getEmail() == null ||
-        employeeDto.getDepartment().isEmpty() || employeeDto.getEmail().isBlank() || employeeDto.getName().isBlank()){
+                employeeDto.getDepartment().isEmpty() || employeeDto.getEmail().isBlank() || employeeDto.getName().isBlank()) {
             flag = true;
         }
         return flag;

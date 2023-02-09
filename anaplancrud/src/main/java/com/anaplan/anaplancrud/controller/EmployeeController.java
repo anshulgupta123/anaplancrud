@@ -40,6 +40,7 @@ public class EmployeeController {
     public ResponseEntity<Object> getEmployeeBYId(@RequestParam Long employeeId) {
         logger.info("Request for getEmployeeBYId of EmployeeController");
         return new ResponseEntity<>(employeeService.getEmployeeById(employeeId), HttpStatus.OK);
+
     }
 
     @DeleteMapping(UrlConstants.DELETE_EMPLOYEE)

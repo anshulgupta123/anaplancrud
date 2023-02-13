@@ -24,4 +24,14 @@ public interface Constants {
 
     String EMPLOYEES_FETCHED_SUCCESSFULLY="employees.fetched.successfully";
 
+    String INVALID_CREDENTIALS = "invalid.credentials";
+    String EMPLOYEE_LOGGINED_SUCESSFULLY = "employee.login.successfully";
+    String EMPLOYEE_APPLICATION = "EMPLOYEE_APPLICATION";
+    String PASSWORD = "password";
+    String TOKEN = "token";
+    String EMAIL = "email";
+    String Message = "message";
+    String MYSECRET = "my.secret";
+    long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    String SESSION_EXPIRED = "session.expired";
 }

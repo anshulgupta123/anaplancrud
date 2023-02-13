@@ -10,6 +10,8 @@ public class EmployeeDto implements Serializable {
     private String email;
     private String department;
 
+    private String password;
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -42,7 +44,13 @@ public class EmployeeDto implements Serializable {
         this.department = department;
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
@@ -51,8 +59,7 @@ public class EmployeeDto implements Serializable {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", department='" + department + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
-
-
 }

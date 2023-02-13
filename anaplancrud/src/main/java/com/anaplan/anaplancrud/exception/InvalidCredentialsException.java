@@ -1,13 +1,11 @@
 package com.anaplan.anaplancrud.exception;
 
-public class EmployeeException extends RuntimeException {
+public class InvalidCredentialsException extends RuntimeException {
+    private String message;
 
-    String message;
-
-    public EmployeeException(String message) {
+    public InvalidCredentialsException(String message) {
         super(message);
         this.message = message;
-
     }
 
     @Override

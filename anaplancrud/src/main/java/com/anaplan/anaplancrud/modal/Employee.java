@@ -13,6 +13,8 @@ public class Employee implements Serializable {
     private String email;
     private String department;
 
+    private String password;
+
     public Long getEmployeeId() {
         return employeeId;
     }
@@ -43,5 +45,13 @@ public class Employee implements Serializable {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

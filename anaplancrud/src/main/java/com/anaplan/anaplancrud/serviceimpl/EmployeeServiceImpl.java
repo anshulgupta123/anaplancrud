@@ -15,7 +15,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setDepartment(employeeDto.getDepartment());
             logger.warn("Not saving email in encoded format");
             employee.setEmail(employeeDto.getEmail());
+            employee.setPassword(employeeDto.getPassword());
             employee.setName(employeeDto.getName());
             Employee savedEmployee = employeeRepository.save(employee);
             logger.debug("Employee id after saving the employee is :{}", savedEmployee.getEmployeeId());
@@ -82,8 +82,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee employee = existedEmployee.get();
             employee.setEmployeeId(employeeDto.getEmployeeId());
             employee.setDepartment(employeeDto.getDepartment() != null ? employeeDto.getDepartment() : employee.getDepartment());
-            employee.setEmail(employeeDto.getEmail() != null ? employeeDto.getEmail() : employeeDto.getEmail());
-            employee.setName(employeeDto.getName() != null ? employeeDto.getName() : null);
+            employee.setEmail(employeeDto.getEmail() != null ? employeeDto.getEmail() : employee.getEmail());
+            employee.setPassword(employeeDto.getPassword()!=null?employeeDto.getPassword():employee.getPassword());
+            employee.setName(employeeDto.getName() != null ? employeeDto.getName() : employee.getName());
             Employee updatedEmployee = employeeRepository.save(employee);
             return new Response<>(updatedEmployee, env.getProperty(Constants.SUCCESS_CODE), env.getProperty(Constants.EMPLOYEE_UPDATED_SUCCESSFULLY));
 
@@ -178,7 +179,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.info("Inside addEmployeeValidation");
         boolean flag = false;
         if (employeeDto.getDepartment() == null || employeeDto.getName() == null || employeeDto.getName() == null || employeeDto.getEmail() == null ||
-                employeeDto.getDepartment().isEmpty() || employeeDto.getEmail().isBlank() || employeeDto.getName().isBlank()) {
+                employeeDto.getDepartment().isEmpty() || employeeDto.getEmail().isBlank() || employeeDto.getName().isBlank() || employeeDto.getPassword()==null ||employeeDto.getPassword().isEmpty()) {
             flag = true;
         }
         return flag;
@@ -207,6 +208,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDto.setDepartment(employee.getDepartment());
         employeeDto.setName(employee.getName());
         employeeDto.setEmail(employee.getEmail());
+        employeeDto.setPassword(employee.getPassword());
         return employeeDto;
     }
 }

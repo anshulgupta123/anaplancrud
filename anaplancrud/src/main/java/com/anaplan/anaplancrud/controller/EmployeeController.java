@@ -34,12 +34,12 @@ public class EmployeeController {
     Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     @PostMapping(value = UrlConstants.ADD_EMPLOYEE)
-    public ResponseEntity<Object> addEmployee(@RequestHeader String xToken, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<Object> addEmployee(@RequestBody EmployeeDto employeeDto) {
         logger.info("Request for addEmployee of EmployeeController :{}", employeeDto);
-        if (checkSessionExpire(xToken)) {
+        /*if (checkSessionExpire(xToken)) {
             logger.info("Session Time Out");
             throw new EmployeeException(environment.getProperty(Constants.SESSION_EXPIRED));
-        }
+        }*/
         return new ResponseEntity<>(employeeService.addEmployee(employeeDto), HttpStatus.OK);
     }
 
@@ -54,11 +54,11 @@ public class EmployeeController {
     }
 
     @GetMapping(UrlConstants.GET_ALL_EMPLOYEES)
-    public ResponseEntity<Object> getAllEmployee(@RequestHeader String xToken) {
-        if (checkSessionExpire(xToken)) {
+    public ResponseEntity<Object> getAllEmployee() {
+       /* if (checkSessionExpire(xToken)) {
             logger.info("Session Time Out");
             throw new EmployeeException(environment.getProperty(Constants.SESSION_EXPIRED));
-        }
+        }*/
         logger.info("Request for getAllEmployee of EmployeeController");
         return new ResponseEntity<>(employeeService.getAllEmployess(), HttpStatus.OK);
     }
@@ -87,5 +87,17 @@ public class EmployeeController {
     public boolean checkSessionExpire(String xToken) {
         logger.info("Checking session is expired or not");
         return jwtTokenService.isTokenExpired(xToken);
+    }
+
+    @GetMapping(value="/")
+    public String getHello(){
+        logger.info("Dashboard exceuted");
+        return "hello employee";
+    }
+
+    @GetMapping(value="/login")
+    public String getHello1(){
+        logger.info("login exceuted");
+        return "hello employee dashboard";
     }
 }

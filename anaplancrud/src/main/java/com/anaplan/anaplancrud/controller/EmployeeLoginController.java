@@ -21,7 +21,7 @@ public class EmployeeLoginController {
     EmployeeLoginService employeeLoginService;
 
 
-    @PostMapping("v1/employeeLlogin")
+    @PostMapping("/v1/employeeLogin")
     public ResponseEntity<Object> loginUser(@RequestBody EmployeeDto employeeDto) throws InvalidCredentialsException {
         logger.info("Request for loginUser of EmployeeLoginController:{}", employeeDto);
         return new ResponseEntity<>(employeeLoginService.userLogin(employeeDto), HttpStatus.OK);
